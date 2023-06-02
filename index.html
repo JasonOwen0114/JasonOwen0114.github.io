@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login/Register Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+
+<body style="background-image: url('login.jpg'); background-repeat: no-repeat; background-position: center; background-size: 1000px;">
+<center>
+    <div id="loginPage">
+        <h2 style="color: whitesmoke;">Login</h2>
+        <input type="text" id="loginUsername" placeholder="Username"><br><br>
+        <input type="password" id="loginPassword" placeholder="Password"><br>
+        <p style="color: whitesmoke; font-size: 10px;">Don't have an account? <a href="#" id="registerLink">Register</a></p>
+        <button id="loginBtn">Login</button>
+        
+    </div>
+</center>
+
+<center>
+    <div id="registerPage" style="display: none;">
+        <h2 style="color: whitesmoke;">Register</h2>
+        <input type="text" id="registerUsername" placeholder="Username"><br><br>
+        <input type="password" id="registerPassword" placeholder="Password"><br><br>
+        <p style="color: whitesmoke;">Already have an account? <a href="#" id="loginLink">Login</a></p>
+        <button id="registerBtn">Register</button>
+        
+    </div>
+</center>
+
+    <script>
+        $(document).ready(function () {
+            // Show login page by default
+            $("#loginPage").show();
+
+            // Handle login link click
+            $("#registerLink").click(function () {
+                $("#loginPage").hide();
+                $("#registerPage").show();
+            });
+
+            // Handle register link click
+            $("#loginLink").click(function () {
+                $("#registerPage").hide();
+                $("#loginPage").show();
+            });
+
+            // Temporary user storage (replace with backend implementation)
+            var users = [];
+
+            // Handle register button click
+            $("#registerBtn").click(function () {
+                var username = $("#registerUsername").val();
+                var password = $("#registerPassword").val();
+
+                // Check if username already exists
+                var userExists = users.some(function (user) {
+                    return user.username === username;
+                });
+
+                if (userExists) {
+                    alert("Username already exists. Please choose a different username.");
+                } else {
+                    // Add new user to temporary storage
+                    users.push({ username: username, password: password });
+                    alert("Registration successful. Please login.");
+                    $("#registerPage").hide();
+                    $("#loginPage").show();
+                }
+            });
+
+            // Handle login button click
+            $("#loginBtn").click(function () {
+                var username = $("#loginUsername").val();
+                var password = $("#loginPassword").val();
+
+                // Find user with matching username and password
+                var user = users.find(function (user) {
+                    return user.username === username && user.password === password;
+                });
+
+                if (user) {
+                    // Redirect to another page after successful login
+                    alert("Login successful. Redirecting to dashboard...");
+                    window.location.href = "1.html";
+                } else {
+                    // Show alert for invalid login
+                    alert("Invalid username or password");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
